@@ -31,7 +31,7 @@ JOBLADDER2_0.use('/job', JobRoute);
 JOBLADDER2_0.use('/user', userRoute);
 
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/JOBLADDER3';
+const MONGO_URI = process.env.MONGO_URI ;
 mongoose.connect(MONGO_URI, {
 }).then(() => {
   console.log('MongoDB connected successfully');
