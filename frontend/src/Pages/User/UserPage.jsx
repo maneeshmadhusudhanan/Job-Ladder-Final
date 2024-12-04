@@ -44,7 +44,7 @@ const UserPage = () => {
                 <img
                   width={150}
                   height={150}
-                  src={ userDetails.profilePicture ? `http://localhost:8000/uploads/${userDetails.profilePicture}` : 'https://img.freepik.com/premium-vector/human-profile-icon-genderless-vector-illustration_276184-158.jpg?w=740' }
+                  src={ userDetails.profilePicture ? `/api/uploads/${userDetails.profilePicture}` : 'https://img.freepik.com/premium-vector/human-profile-icon-genderless-vector-illustration_276184-158.jpg?w=740' }
                   alt={userDetails.profilePicture}
                   className="mx-auto self-start max-w-full border-solid aspect-square border-[5px] rounded-full border-stone-50"
                 />
@@ -72,6 +72,14 @@ const UserPage = () => {
                 <p className="font-semibold">
                   Qualification: <span className="font-normal">{ userDetails.qualification ? userDetails.qualification : '-------------' }</span>
                 </p>
+                  <a
+                    href={`/api/uploads/${userDetails.resume}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white w-[120px] h-10 bg-blue-600 pt-2 pl-2"
+                  >
+                  View Resume
+                  </a>
               </div>
             </div>
 

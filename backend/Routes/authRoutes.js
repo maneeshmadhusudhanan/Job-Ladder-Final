@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+
 //multer ending------------------------------------
 
 authRoute.post("/jobladderlogin", async (req, res) => {
@@ -238,27 +239,36 @@ authRoute.post("/updateEmployer", authMiddleware, upload.single("profilePicture"
   }
 });
 
-authRoute.post("/updateUser", userMiddleware, upload.single("profilePicture"), async (req, res) => {
-  try {
-    const userId = req.user.userId; 
-    const { firstName, lastName, username, email, phoneNumber, bio, location,qualification } = req.body;
+authRoute.post(
+  "/updateUser",
+  userMiddleware,
+  upload.fields([
+    { name: "profilePicture", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const { firstName, lastName, username, email, phoneNumber, bio, location, qualification } = req.body;
 
-    const updateData = { firstName, lastName, username, email, phoneNumber,bio, location,qualification };
-    if (req.file) updateData.profilePicture = req.file.filename;
+      const updateData = { firstName, lastName, username, email, phoneNumber, bio, location, qualification };
+      if (req.files.profilePicture) updateData.profilePicture = req.files.profilePicture[0].filename;
+      if (req.files.resume) updateData.resume = req.files.resume[0].filename;
 
-    const updatedUser = await Auth.findByIdAndUpdate(userId, updateData, { new: true });
-    console.log("Updated User:", updatedUser);
+      const updatedUser = await Auth.findByIdAndUpdate(userId, updateData, { new: true });
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
-
-    res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
-});
+);
+
 
 
 

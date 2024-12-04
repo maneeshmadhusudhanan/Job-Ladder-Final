@@ -20,7 +20,7 @@ const Adminpage = () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8000/auth/getAdminDetails`, {
+      const response = await fetch(`/api/auth/getAdminDetails`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ const Adminpage = () => {
               <img
                   width={150}
                   height={150}
-                  src={ userDetails.profilePicture ? `http://localhost:8000/uploads/${userDetails.profilePicture}` : 'https://img.freepik.com/premium-vector/human-profile-icon-genderless-vector-illustration_276184-158.jpg?w=740' }
+                  src={ userDetails.profilePicture ? `/api/uploads/${userDetails.profilePicture}` : 'https://img.freepik.com/premium-vector/human-profile-icon-genderless-vector-illustration_276184-158.jpg?w=740' }
                   alt={userDetails.profilePicture}
                   className="mx-auto self-start max-w-full border-solid aspect-square border-[5px] rounded-full border-stone-50"
                 />

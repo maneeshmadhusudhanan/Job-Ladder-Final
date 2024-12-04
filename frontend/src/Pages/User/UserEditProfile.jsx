@@ -11,6 +11,7 @@ const UserEditProfile = () => {
     location: "",
     qualification : "",
     profilePicture: null,
+    resume :null
   });
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const UserEditProfile = () => {
             location: data.location || "",
             qualification : data.qualification || "",
             profilePicture: null, 
+            resume :null
           });
 
         } else {
@@ -50,13 +52,14 @@ const UserEditProfile = () => {
     }, []);
 
     const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "profilePicture") {
-      setFormData({ ...formData, profilePicture: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+      const { name, value, files } = e.target;
+      if (name === "resume" || name === "profilePicture") {
+        setFormData({ ...formData, [name]: files[0] });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
     };
+    
 
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -134,6 +137,20 @@ const UserEditProfile = () => {
               className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
             />
 
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="resume" className="block text-lg text-white">
+              Upload Resume
+            </label>
+            <input
+              type="file"
+              id="resume"
+              name="resume"
+              accept=".pdf,.doc,.docx"
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+            />
           </div>
   
           <div className="flex justify-center">

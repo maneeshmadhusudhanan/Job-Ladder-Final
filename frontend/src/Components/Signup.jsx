@@ -18,7 +18,7 @@ const Signup = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/auth/jobladderSignup', {
+      const response = await fetch('/api/auth/jobladderSignup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

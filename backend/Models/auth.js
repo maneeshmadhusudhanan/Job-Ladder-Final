@@ -43,6 +43,9 @@ const AuthSchema = new mongoose.Schema({
   profilePicture: { 
     type: String 
   },
+  resume: {
+    type: String, 
+  },
   role: {
     type: String,
     required: true,

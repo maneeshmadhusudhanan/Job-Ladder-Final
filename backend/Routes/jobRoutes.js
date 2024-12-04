@@ -1,4 +1,5 @@
-import Job from "../Models/Job.js"; 
+import Job from "../Models/Job.js";
+import Auth from "../Models/auth.js"
 import express from "express";
 import dotenv from "dotenv";
 import authMiddleware from "../Middleware/employerMiddleware.js";
@@ -169,11 +170,22 @@ JobRoute.delete("/delete/:_id", authMiddleware, async (req, res) => {
     }
 });
 
+
 JobRoute.patch("/apply/:jobId", userMiddleware, async (req, res) => {
   const { jobId } = req.params;
   const userId = req.user.userId; // Get userId from the JWT token (middleware)
 
   try {
+    // Find the user to get the resume
+    const user = await Auth.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.resume) {
+      return res.status(400).json({ message: "Please upload a resume to your profile before applying." });
+    }
+
     // Find the job by jobId
     const job = await Job.findById(jobId);
     if (!job) {
@@ -189,10 +201,12 @@ JobRoute.patch("/apply/:jobId", userMiddleware, async (req, res) => {
       return res.status(400).json({ message: "You have already applied for this job" });
     }
 
-    // Add new application with status "Applied"
+    // Add new application with status "Applied" and reference to the resume
     job.applications.push({
       userId,
       status: "Applied",
+      appliedAt: new Date(),
+      resume: user.resume, // Add resume from user's profile
     });
 
     // Save the updated job
@@ -204,6 +218,7 @@ JobRoute.patch("/apply/:jobId", userMiddleware, async (req, res) => {
     res.status(500).json({ message: "Error applying for job", error: error.message });
   }
 });
+
 
 
 
