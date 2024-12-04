@@ -1,9 +1,7 @@
-version: '3.4'
-
 services:
   mongodb:
     image: mongo:latest
-    container_name: mongodb
+    container_name: jobladder
     ports:
       - 27017:27017  
     volumes:
@@ -17,7 +15,8 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8000:8000
-
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/jobladder
   ui:
     image: frontend
     depends_on:
@@ -27,6 +26,5 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 5173:5173
-
 volumes:
   mongo_volume:

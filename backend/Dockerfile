@@ -1,6 +1,6 @@
-FROM node:20.13.1
-WORKDIR /user/src/app
+FROM node:20.15.1
+WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-CMD ["npm","run","dev"]
+CMD ["node","index.js"]

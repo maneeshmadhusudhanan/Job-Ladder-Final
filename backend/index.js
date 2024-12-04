@@ -31,14 +31,12 @@ JOBLADDER2_0.use('/job', JobRoute);
 JOBLADDER2_0.use('/user', userRoute);
 
 
-const MONGO_URI = process.env.MONGO_URI ;
-mongoose.connect(MONGO_URI, {
-}).then(() => {
-  console.log('MongoDB connected successfully');
-}).catch((error) => {
-  console.error('Error connecting to MongoDB:', error);
-  process.exit(1); 
-});
+// const MONGO_URI = process.env.MONGO_URI ;
+const mongoUri = process.env.MONGO_URI 
+mongoose
+  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 const port = 8000;
 
